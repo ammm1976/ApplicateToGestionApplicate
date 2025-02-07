@@ -1,0 +1,32 @@
+import java.io.*;
+import java.net.*;
+import java.util.stream.Collectors;
+import com.google.gson.*;
+
+public class SincronizarRespuestasTypeform {
+    private static final String API_KEY = "TU_API_KEY";
+    private static final String FORM_ID = "TU_FORM_ID";
+
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://api.typeform.com/forms/" + FORM_ID + "/responses");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String jsonResponse = reader.lines().collect(Collectors.joining());
+
+            Gson gson = new Gson();
+            TypeformResponse typeformResponse = gson.fromJson(jsonResponse, TypeformResponse.class);
+
+            for (ResponseItem item : typeformResponse.getItems()) {
+                DatabaseManager.guardarRespuesta(item.getNombre(), item.getEmail(), item.getRespuesta());
+            }
+
+            System.out.println("Respuestas antiguas guardadas en MySQL con éxito.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

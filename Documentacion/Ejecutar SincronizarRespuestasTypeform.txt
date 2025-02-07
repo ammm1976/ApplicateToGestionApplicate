@@ -1,0 +1,13 @@
+java SincronizarRespuestasTypeform
+
+Consideraciones:
+Dependencias: Si el programa depende de bibliotecas externas, como Gson para el parsing de JSON, asegúrate de agregar esas bibliotecas al classpath cuando ejecutes el programa desde la línea de comandos. Por ejemplo:
+
+sh
+Copiar
+java -cp .:gson-2.8.8.jar SincronizarRespuestasTypeform
+(En Windows, usa ; en lugar de : para separar los archivos JAR).
+
+Configuración del Access Token: Asegúrate de que el ACCESS_TOKEN esté configurado correctamente para que puedas acceder a la API de Typeform.
+
+Verificación de la API: Si estás haciendo llamadas paginadas a la API (si el número de respuestas es grande), tendrás que manejar la paginación. La API de Typeform podría devolverte solo una parte de las respuestas en cada llamada, y tendrás que hacer múltiples llamadas para obtener todas.
