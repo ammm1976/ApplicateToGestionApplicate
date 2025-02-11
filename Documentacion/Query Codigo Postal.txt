@@ -1,0 +1,5 @@
+SELECT a.nombre AS alumno, 
+       COALESCE(p.codigo_postal, m.codigo_postal) AS codigo_postal
+FROM Alumnos a
+LEFT JOIN Pedanias p ON a.pedanias_nombre = p.nombre
+JOIN Municipios m ON a.municipios_nombre = m.nombre;
